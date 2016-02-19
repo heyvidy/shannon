@@ -1,0 +1,106 @@
+{% extends "network/base.html" %}
+{% load bootstrap3 %}
+{% load imagekit %}
+{% bootstrap_css %}
+{% bootstrap_messages %}
+{% load static %}
+
+
+{% block page_content %}
+{% if user.is_authenticated %}
+<body style = "background-color:#f1f1f1">
+    <div class="container-fluid">
+        <div class = "row">
+            <div class="col-md-3 col-md-offset-0">
+                <!-- Profile Info -->
+                    <div class="panel panel-primary">
+                        <div class = "panel-heading" style="font-family: 'Lato', sans-serif;">Profile Info</div>
+                            <div class = "panel-body" style =  "padding-top:40px; text-align: center;">
+                            <img class="img-thumbnail" src="/media/photos/{{profile}}"/>
+                            <p class="text-center" style = "font-size:100%; padding-top:20px"><b>{{ user.first_name }} {{user.last_name}}</b></p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                        <div class = "panel-heading" style="font-family: 'Lato', sans-serif;">Site Map</div>
+                            <div class = "panel-body" style =  "padding-top:40px; text-align: center;">
+                            <li class="list-group-item"><a href="/home" style="font-family: 'Lato', sans-serif;">Home</a></li>
+                            <li class="list-group-item"><a <a href="/profile/{{user.id}}" style="font-family: 'Lato', sans-serif;">Profile</a></li>
+                            <li class="list-group-item"><a <a href="/docs" style="font-family: 'Lato', sans-serif;">Files</a></li>
+                        </div>
+                    </div>
+            </div>
+
+
+
+          <!-- Post Feed -->
+            <div class="col-md-5 col-md-offset-0">
+                         <div class="panel panel-primary" >
+                            <div class = "panel-heading" style="font-family: 'Lato', sans-serif;">Post to Feed</div>
+
+                            <div class = "panel-body" style = "padding-left:50px; padding-right:50px; padding-top:50px; padding-bottom:30px;">
+
+                                <form action="/home/" method= "POST">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control" placeholder="Title" style = "margin-bottom: 8px;" name = "title"/>
+
+                                    <textarea class="form-control" style = "margin-bottom: 8px;" placeholder="Body" rows="2" name = "body"></textarea>
+                                    <input type="submit" class="btn btn-info" style = "float: right;"></input>
+                                </form>
+
+                            </div>
+                 </div>
+                <!-- Post Looping for all the latest posts -->
+                {% for post in posts %}
+                        <div class ="panel panel-default" style = "padding-left:50px; padding-right:50px; padding-top:30px; padding-bottom:30px; ">
+                            {% if post.author == user %}
+                        <div class="dropdown" style = "text-align:right">
+                          <button class="btn btn-default btn-lg dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="/delete/postid={{post.id}}/" style="font-family: 'Lato', sans-serif;">Delete</a></li>
+                          </ul>
+                        </div>
+                    {% endif %}
+
+                            <h3 style="font-family: 'Lato', sans-serif;">{{post.post_title}}</h3>
+                            <p style = "font-size:80%" style="font-family: 'Lato', sans-serif;"><i>Posted by <a href="/profile/{{post.author.id}}" style="font-family: 'Lato', sans-serif;">{{post.author.first_name}}</a></i> </p>
+                            <p style="font-size:100%;" style="font-family: 'Lato', sans-serif;">{{post.post_body}}</p>
+                        </div>
+                {% endfor %}
+
+            </div>
+
+            <!-- Notice Feed -->
+            <div class="col-md-4 col-md-offset-0">
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-family: 'Lato', sans-serif;">Notice Board</div>
+                    <div class = "panel-body" style = "padding-left:50px; padding-right:50px; padding-top:50px; padding-bottom:30px;">
+                        {% for notice in notices %}
+                        <ul>
+                        <li><h3>{{notice.notice}}</h3>
+                            {{ notice.notice_description}}
+                        </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading" style="font-family: 'Lato', sans-serif;">Upcoming Activities</div>
+                    <div class = "panel-body" style = "padding-left:50px; padding-right:50px; padding-top:50px; padding-bottom:30px;">
+                        {% for activity in activities %}
+                        <li class="list-group-item">
+                        <h4 style="font-family: 'Montserrat', sans-serif;">{{activity.activity_name}}</h4>
+                        <p style="font-family: 'Lato', sans-serif;" >On: {{activity.activity_date}}</p></li>
+                        {% endfor%}
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+{% endif %}
+{% endblock %}

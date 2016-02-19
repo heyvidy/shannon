@@ -1,0 +1,14 @@
+{% extends "network/base.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_messages %}
+
+{% block page_content %}
+<div class="container-fluid">
+<div class="jumbotron">
+  <h1>Welcome to BEAMANT</h1>
+  <p>Welcome, {{ user.username }}</p>
+  <p>You can connect with your friends, download important files and update your profile. Login Now.</p>
+  <p><a class="btn btn-primary btn-lg" href="/login/" role="button">Login Now</a></p>
+</div>
+{% endblock %}

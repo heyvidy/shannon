@@ -1,0 +1,147 @@
+{% extends "network/base.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_messages %}
+
+
+{% block page_content %}
+{% if user.is_authenticated %}
+    <!-- List of uploaded documents -->
+    <div class="container-fluid">
+        <div class = "row">
+
+
+           <div class="col-md-3 col-md-offset-0">
+                <div class="panel panel-success">
+                    <div class = "panel-heading">Upload a File</div>
+                        <div class = "panel-body" style =  "padding-top:20px;">
+                        <form action="/docs/" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <p>{{ form.non_field_errors }}</p>
+                                {{ form.docfile.errors }}
+
+                                    <li class="list-group-item"><p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+                                    {{ form.docfile }}
+                                <br>
+                                Add Title: {{ form.name }}</li>
+                                <br>
+
+
+                                <p style = "font-size:110%">Please Tag The File to Appropriate Subject</p>
+
+
+                                    <li class="list-group-item">{{form.label}}</li>
+                                    <BR>
+
+                                    <div class="alert alert-warning alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>Warning!</strong> File shall not show up in respective list if not tagged.
+                                    </div>
+                                    <input class="btn btn-success"  type="submit" value="Upload" />
+                        </form>
+                        </div>
+                    </div>
+                </div>
+
+<!-- Diplaying Documents of each subject -->
+                <div class="col-md-3 col-md-offset-0">
+                    <div class="panel panel-success">
+                    <div class = "panel-heading">Digital Communications</div>
+                        <div class = "panel-body" style =  "padding-top:40px; text-align: center;">
+                            {% if documents %}
+                            {% for document in documents %}
+                                {% if document.label == 'dc' %}
+                                <li class="list-group-item"><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <p>No documents.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="panel panel-success">
+                    <div class = "panel-heading">MEC</div>
+                        <div class = "panel-body" style =  "padding-top:40px; text-align: center;">
+                            {% if documents %}
+                            {% for document in documents %}
+                                {% if document.label == 'mec' %}
+                                <li class="list-group-item"><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <p>No documents.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-md-offset-0">
+                    <div class="panel panel-success">
+                    <div class = "panel-heading">Sat Comm</div>
+                        <div class = "panel-body" style =  "padding-top:40px; text-align: center;">
+                            {% if documents %}
+                            {% for document in documents %}
+                                {% if document.label == 'sc' %}
+                                <li class="list-group-item"><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <p>No documents.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="panel panel-success">
+                    <div class = "panel-heading">Operating Systems</div>
+                        <div class = "panel-body" style =  "padding-top:40px; text-align: center;">
+                            {% if documents %}
+                            {% for document in documents %}
+                                {% if document.label == 'os' %}
+                                <li class="list-group-item"><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <p>No documents.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3 col-md-offset-0">
+                    <div class="panel panel-success">
+                    <div class = "panel-heading">Microprocessors</div>
+                        <div class = "panel-body" style =  "padding-top:40px; text-align: center;">
+                            {% if documents %}
+                            {% for document in documents %}
+                                {% if document.label == 'mp' %}
+                                <li class="list-group-item"><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <p>No documents.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="panel panel-success">
+                    <div class = "panel-heading">Antenna & Prop</div>
+                        <div class = "panel-body" style =  "padding-top:40px; text-align: center;">
+                            {% if documents %}
+                            {% for document in documents %}
+                                {% if document.label == 'ap' %}
+                                <li class="list-group-item"><a href="{{ document.docfile.url }}">{{ document.name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <p>No documents.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+    </div>
+    </div>
+    {% endif %}}
+{% endblock %}

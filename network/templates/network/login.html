@@ -1,0 +1,25 @@
+{% extends "network/base.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_messages %}
+
+
+{% block page_content %}
+
+<form action= "/login/" method = "POST" >
+   {% csrf_token %}
+  <div class="col-md-6 col-md-offset-3">
+    <div class="container-fluid" position = "center">
+        <div class= 'jumbotron'>
+            <h2>Login Page</h2>
+            <label for="EmailInput">Username</label>
+            <input name = "username" type="text"  class="form-control">
+            <label for="EmailInput">Password</label>
+            <input name = "password" type="password"  class="form-control"><br>
+            <input type="submit"  class="btn btn-success" value="Submit" />
+          </div>
+      </div>
+  </div>
+</form>
+
+{% endblock %}
